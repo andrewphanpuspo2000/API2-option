@@ -1,9 +1,12 @@
 import express from "express";
-
+import cors from "cors";
 const app = express();
-
+app.use(cors());
 const port = 8000;
-
+console.log("test");
+//connect mongodb
+import { mongoConnect } from "./src/router/task/config/mongoDb.js";
+mongoConnect();
 //api Endpoint
 import taskrouter from "./src/router/task/task.js";
 app.use(express.json());

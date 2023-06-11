@@ -3,6 +3,7 @@ GET http://localhost:8000/
 ### read task api
 
 GET http://localhost:8000/api/v1/task
+
 ###
 POST http://localhost:8000/api/v1/task
 Content-Type: application/json
@@ -10,7 +11,6 @@ Content-Type: application/json
 {
     "task":"coding",
     "hr":33,
-    "_id":"ssfemo",
      "type":"entry"
 }
 ###
@@ -18,15 +18,10 @@ PATCH  http://localhost:8000/api/v1/task
 Content-Type: application/json
 
 {
-    "_id":"1",
-    "type":"task"
+    "_id":"64850a6f89db696709eede7d",
+    "type":"bad"
 }
 
 ### delete
-DELETE  http://localhost:8000/api/v1/task/sip
+DELETE  http://localhost:8000/api/v1/task/648505d1ed33edba90616714
 Content-Type: application/json
-
-{
-    "_id":"2"
-}
-

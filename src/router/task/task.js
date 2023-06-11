@@ -1,43 +1,56 @@
 import express from "express";
+import {
+  createTask,
+  deleteById,
+  readTasks,
+  switchTask,
+} from "../../model/Taskmodel.js";
 
 const router = express.Router();
 
-let fakeDB = [
-  {
-    _id: "1",
-    type: "bad",
-    task: "Complete project report",
-    hour: "9:00 AM",
-  },
-  {
-    _id: "2",
-    type: "entry",
-    task: "Attend team meeting",
-    hour: "2:30 PM",
-  },
-];
 // router.all("/", (req, res) => {
 //   console.log("first");
 // });
-router.get("/", (req, res) => {
-  res.json({ status: "success get", fakeDB: fakeDB });
+router.get("/", async (req, res) => {
+  // get data from db
+  const taskList = await readTasks();
+
+  console.log(taskList);
+  res.json({ status: "success", taskList: taskList });
 });
-router.post("/", (req, res) => {
-  fakeDB.push(req.body);
-  res.json({ status: "success post" });
+router.post("/", async (req, res) => {
+  try {
+    const result = await createTask(req.body);
+    result?._id
+      ? res.json({
+          status: "success",
+          message: "success to post",
+        })
+      : res.json({
+          status: "failed",
+          message: "unable to add data",
+        });
+  } catch (error) {
+    console.log(error);
+  }
 });
-router.patch("/", (req, res) => {
+router.patch("/", async (req, res) => {
   const { _id, type } = req.body;
-  fakeDB.map((item, i) => {
-    if (item._id === _id) return { ...item, type };
-    return item;
-  });
-  res.json({ status: "success patch" });
+  const result = await switchTask(_id, type);
+  console.log(req.body);
+  console.log(result);
+  res.json({ status: "success patch", db: result });
 });
 
-router.delete("/sip", (req, res) => {
-  fakeDB = fakeDB.filter((item, i) => item._id !== req.body._id);
-  res.json({ status: "success delete" });
+router.delete("/:_id?", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const result = await deleteById(_id);
+    console.log(req.params);
+    res.json({ status: "success delete", db: result });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default router;

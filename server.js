@@ -19,5 +19,5 @@ app.listen(port, (error) => {
 });
 
 app.get("/", (req, res) => {
-  res.json({ message: "server is running properly" });
+  res.json({ message: "server is running properly in port 8000" });
 });

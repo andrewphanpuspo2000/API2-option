@@ -21,3 +21,11 @@ app.listen(port, (error) => {
 app.get("/", (req, res) => {
   res.json({ message: "server is running properly in port 8000" });
 });
+
+app.post("/:id/:name", (req, res) => {
+  const result = req.params;
+  res.json({
+    id: result.id,
+    name: result.name,
+  });
+});

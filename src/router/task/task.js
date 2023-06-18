@@ -1,7 +1,7 @@
 import express from "express";
 import {
   createTask,
-  deleteById,
+  deleteManyId,
   readTasks,
   switchTask,
 } from "../../model/Taskmodel.js";
@@ -13,14 +13,19 @@ const router = express.Router();
 // });
 router.get("/", async (req, res) => {
   // get data from db
-  const taskList = await readTasks();
+  try {
+    const taskList = await readTasks();
 
-  console.log(taskList);
-  res.json({ status: "success", taskList: taskList });
+    console.log(taskList);
+    res.json({ status: "success", taskList: taskList });
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 router.post("/", async (req, res) => {
   try {
     const result = await createTask(req.body);
+    console.log(result);
     result?._id
       ? res.json({
           status: "success",
@@ -39,15 +44,14 @@ router.patch("/", async (req, res) => {
   const result = await switchTask(_id, type);
   console.log(req.body);
   console.log(result);
-  res.json({ status: "success patch", db: result });
+  res.json({ status: "success", message: "data has been updated" });
 });
 
-router.delete("/:_id?", async (req, res) => {
+router.delete("/", async (req, res) => {
   try {
-    const { _id } = req.params;
-    const result = await deleteById(_id);
-    console.log(req.params);
-    res.json({ status: "success delete", db: result });
+    const result = await deleteManyId(req.body);
+    console.log(req.body);
+    res.json({ status: "success", message: "id have been deleted" });
   } catch (error) {
     console.log(error);
   }

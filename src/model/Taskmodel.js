@@ -8,10 +8,14 @@ export const readTasks = () => {
   return TaskModelSchema.find();
 };
 //id is a string
-export const switchTask = ({ _id, type }) => {
+export const switchTask = (_id, type) => {
   return TaskModelSchema.findByIdAndUpdate(_id, { type });
 };
 
-export const deleteById = (_id) => {
-  return TaskModelSchema.findByIdAndDelete(_id);
+export const deleteManyId = (ids) => {
+  return TaskModelSchema.deleteMany({
+    _id: {
+      $in: ids,
+    },
+  });
 };

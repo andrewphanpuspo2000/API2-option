@@ -1,4 +1,6 @@
 GET http://localhost:8000/
+###
+POST  http://localhost:8000/123/John
 
 ### read task api
 

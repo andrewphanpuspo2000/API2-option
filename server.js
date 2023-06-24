@@ -7,6 +7,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 const port = process.env.port || 8000;
+
 console.log("test");
 
 const __dirname = path.resolve();
@@ -31,14 +32,20 @@ const db =
     ? "mongodb://localhost:27017/nottododb"
     : process.env.MONGO_CLIENT;
 
-mongoose.connect(process.env.MONGO_CLIENT).then(() => {
-  console.log("Connected to mongo");
-  app.listen(port, (error) => {
-    error
-      ? console.log(error.message)
-      : console.log(`server run in port http://localhost:${port}`);
+mongoose
+  .connect(process.env.MONGO_CLIENT)
+  .then(() => {
+    console.log("Connected to mongo");
+    app.listen(port, (error) => {
+      console.log("Connected to port");
+      error
+        ? console.log(error.message)
+        : console.log(`server run in port http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error.message);
   });
-});
 // app.post("/:id/:name", (req, res) => {
 //   const result = req.params;
 //   res.json({

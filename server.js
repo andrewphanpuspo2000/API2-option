@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 app.use(cors());
-const port = 8000;
+const port = process.env.port || 8000;
 console.log("test");
 
 const ___dirname = path.resolve();

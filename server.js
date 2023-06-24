@@ -33,7 +33,7 @@ const db =
     : "mongodb://localhost:27017/nottododb";
 
 mongoose
-  .connect(process.env.MONGO_CLIENT)
+  .connect(db)
   .then(() => {
     console.log("Connected to mongo");
     app.listen(port, (error) => {

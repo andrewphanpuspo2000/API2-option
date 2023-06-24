@@ -2,11 +2,11 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import dotenv from "dotenv";
-
+import mongoose from "mongoose";
 dotenv.config();
 const app = express();
 app.use(cors());
-const port = process.env.port || 3000;
+const port = process.env.PORT || 8000;
 console.log("test");
 
 const ___dirname = path.resolve();
@@ -22,7 +22,12 @@ app.use("/", (req, res) => {
   res.sendFile(___dirname + "/index.html");
 });
 //open port
-mongoConnect().then(() => {
+const db =
+  process.env.NODE_ENV !== "production"
+    ? "mongodb://localhost:27017/nottododb"
+    : process.env.MONGO_CLIENT;
+
+mongoose.connect(db).then(() => {
   app.listen(port, (error) => {
     error
       ? console.log(error.message)

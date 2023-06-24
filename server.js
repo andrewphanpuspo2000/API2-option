@@ -28,9 +28,9 @@ app.get("/", (req, res) => {
 
 //open port
 const db =
-  process.env.NODE_ENV !== "production"
-    ? "mongodb://localhost:27017/nottododb"
-    : process.env.MONGO_CLIENT;
+  process.env.NODE_ENV === "production"
+    ? process.env.MONGO_CLIENT
+    : "mongodb://localhost:27017/nottododb";
 
 mongoose
   .connect(db)

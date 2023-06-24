@@ -6,39 +6,39 @@ import mongoose from "mongoose";
 dotenv.config();
 const app = express();
 app.use(cors());
-const port = process.env.PORT || 8000;
+const port = process.env.port || 8000;
 console.log("test");
 
-const ___dirname = path.resolve();
+const __dirname = path.resolve();
 //connect mongodb
-import { mongoConnect } from "./src/router/task/config/mongoDb.js";
+
 //api Endpoint
 import taskrouter from "./src/router/task/task.js";
 app.use(express.json());
 app.use("/api/v1/task", taskrouter);
-app.use(express.static(___dirname + "/build"));
+app.use(express.static(__dirname + "/build"));
 
 app.use("/", (req, res) => {
-  res.sendFile(___dirname + "/index.html");
+  res.sendFile(__dirname + "/index.html");
 });
+app.get("/", (req, res) => {
+  res.json({ message: "server is running properly in port 8000" });
+});
+
 //open port
 const db =
   process.env.NODE_ENV !== "production"
     ? "mongodb://localhost:27017/nottododb"
     : process.env.MONGO_CLIENT;
 
-mongoose.connect(db).then(() => {
+mongoose.connect(process.env.MONGO_CLIENT).then(() => {
+  console.log("Connected to mongo");
   app.listen(port, (error) => {
     error
       ? console.log(error.message)
       : console.log(`server run in port http://localhost:${port}`);
   });
 });
-
-app.get("/", (req, res) => {
-  res.json({ message: "server is running properly in port 8000" });
-});
-
 // app.post("/:id/:name", (req, res) => {
 //   const result = req.params;
 //   res.json({

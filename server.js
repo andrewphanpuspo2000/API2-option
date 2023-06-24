@@ -33,7 +33,7 @@ const db =
     : process.env.MONGO_CLIENT;
 
 mongoose
-  .connect(process.env.MONGO_CLIENT)
+  .connect(db)
   .then(() => {
     console.log("Connected to mongo");
     app.listen(port, (error) => {
